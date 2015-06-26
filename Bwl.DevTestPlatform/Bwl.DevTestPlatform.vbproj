@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4B2650D5-5369-449D-A185-F24D31438795}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Bwl.DevTestPlatform.My.MyApplication</StartupObject>
+    <StartupObject>Sub Main</StartupObject>
     <RootNamespace>Bwl.DevTestPlatform</RootNamespace>
     <AssemblyName>Bwl.DevTestPlatform</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsForms</MyType>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -49,6 +49,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Andere116.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bwl.Framework">
       <HintPath>..\refs\Bwl.Framework.dll</HintPath>
@@ -65,7 +68,6 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Bwl.Framework" />
@@ -80,6 +82,7 @@
     <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\App.vb" />
     <Compile Include="interface\Bus.vb" />
     <Compile Include="interface\AnalogInput.vb" />
     <Compile Include="src\CodeExecutor.designer.vb">
@@ -88,11 +91,11 @@
     <Compile Include="src\CodeExecutor.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="src\DevTest.vb">
+    <Compile Include="src\DevTestPlatform.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\DevTest.Designer.vb">
-      <DependentUpon>DevTest.vb</DependentUpon>
+    <Compile Include="src\DevTestPlatform.Designer.vb">
+      <DependentUpon>DevTestPlatform.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="interface\DigitalPin.vb" />
@@ -112,29 +115,34 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="interface\Pin.vb" />
+    <Compile Include="src\FTDIFunctions.vb" />
     <Compile Include="src\PinState.Designer.vb">
       <DependentUpon>PinState.vb</DependentUpon>
     </Compile>
     <Compile Include="src\PinState.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SelfTest.Designer.vb">
-      <DependentUpon>SelfTest.vb</DependentUpon>
+    <Compile Include="src\PlatformSelfTest.Designer.vb">
+      <DependentUpon>PlatformSelfTest.vb</DependentUpon>
     </Compile>
-    <Compile Include="src\SelfTest.vb">
+    <Compile Include="src\PlatformSelfTest.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestProgram.vb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Include="production-apps\ProdAppBase.Designer.vb">
+      <DependentUpon>ProdAppBase.vb</DependentUpon>
+    </Compile>
+    <Compile Include="production-apps\ProdAppBase.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="interface\Tools.vb" />
+    <Compile Include="src\Tests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\CodeExecutor.resx">
       <DependentUpon>CodeExecutor.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\DevTest.resx">
-      <DependentUpon>DevTest.vb</DependentUpon>
+    <EmbeddedResource Include="src\DevTestPlatform.resx">
+      <DependentUpon>DevTestPlatform.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -145,8 +153,11 @@
     <EmbeddedResource Include="src\PinState.resx">
       <DependentUpon>PinState.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SelfTest.resx">
-      <DependentUpon>SelfTest.vb</DependentUpon>
+    <EmbeddedResource Include="src\PlatformSelfTest.resx">
+      <DependentUpon>PlatformSelfTest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="production-apps\ProdAppBase.resx">
+      <DependentUpon>ProdAppBase.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +171,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Andere116.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
