@@ -5,12 +5,27 @@ Public Class DevTestPlatform
     Inherits FormAppBase
     Private _thread As New Threading.Thread(AddressOf ProcessThread)
     Private _platformInterface As New Pin
+    Private _testBoxInfo As DeviceInfo
 
     Public Property IntSSerial As SimplSerialBus
     Public Property PortMCU As String = ""
     Public Property Port232 As String = ""
     Public Property Port485 As String = ""
     Public Property PortUART As String = ""
+    Public Property Started As Boolean = False
+    Public Event CoreReady(sender As DevTestPlatform)
+
+    Public ReadOnly Property Logger As Logger
+        Get
+            Return _logger
+        End Get
+    End Property
+
+    Public ReadOnly Property Storage As SettingsStorageRoot
+        Get
+            Return _storage
+        End Get
+    End Property
 
     Public Shared Function Create(hostName As String) As DevTestPlatform
         Application.EnableVisualStyles()
@@ -36,11 +51,16 @@ Public Class DevTestPlatform
         Me.Text += " SW:" + Application.ProductVersion + " FW:#"
     End Sub
 
+    Public Sub CheckDevTestPlatformPresent()
+        If Present = False Then Throw New Exception("Не обнаружена тестовая коробка (DevTestPlatform not found)")
+    End Sub
+
     Sub ProcessThread()
+        Dim ports As FTD2XX_NET.FTDI.FT_DEVICE_INFO_NODE() = {}
         Do
             If Port485 = "" Then
                 Try
-                    Port485 = FTDIFunctions.GetComPortByName("USB RS485")
+                    Port485 = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB RS485"))
                     Me.Invoke(Sub() rs485portLabel.Text = Port485)
                     Bus.RS485.DeviceAddress = Port485
                     Bus.RS485.DeviceSpeed = 9600
@@ -59,7 +79,7 @@ Public Class DevTestPlatform
 
             If Port232 = "" Then
                 Try
-                    Port232 = FTDIFunctions.GetComPortByName("USB RS232")
+                    Port232 = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB RS232"))
                     Me.Invoke(Sub() rs232portLabel.Text = Port232)
                     Bus.UART.DeviceAddress = Port232
                     Bus.UART.DeviceSpeed = 9600
@@ -73,12 +93,13 @@ Public Class DevTestPlatform
                     _logger.AddError("RS232: " + ex.Message)
                 End Try
             Else
-                Me.Invoke(Sub() rs232CheckboxOpened.Checked = Bus.rs232.IsConnected)
+                Me.Invoke(Sub() rs232CheckboxOpened.Checked = Bus.RS232.IsConnected)
             End If
 
             If PortUART = "" Then
                 Try
-                    PortUART = FTDIFunctions.GetComPortByName("USB UART")
+                    PortUART = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB TB-UART"))
+                    If PortUART = "" Then PortUART = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB UART"))
                     Me.Invoke(Sub() uartPortLabel.Text = PortUART)
                     Bus.UART.DeviceAddress = PortUART
                     Bus.UART.DeviceSpeed = 9600
@@ -97,16 +118,25 @@ Public Class DevTestPlatform
 
             If PortMCU = "" Then
                 Try
-                    PortMCU = FTDIFunctions.GetComPortByName("USB MCU")
+                    ports = FTDIFunctions.GetFtdiPorts
+                    PortMCU = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB MCU"))
                     If PortMCU > "" Then
                         _logger.AddMessage("TestBox Core:   " + PortMCU)
                         IntSSerial = New SimplSerialBus(PortMCU)
                         IntSSerial.SerialDevice.Connect()
-                        Dim info = IntSSerial.RequestDeviceInfo(0)
-                        _logger.AddMessage("FW Name: " + info.DeviceName.Trim)
-                        _logger.AddMessage("FW Date: " + info.DeviceDate.Trim)
-                        Me.Invoke(Sub() Me.Text = Me.Text.Replace("#", info.DeviceDate))
-                        _logger.AddMessage("Started!")
+                        _testBoxInfo = IntSSerial.RequestDeviceInfo(0)
+                        If _testBoxInfo.DeviceName.Contains("DevTestPlatform") Then
+                            _logger.AddMessage("FW Name: " + _testBoxInfo.DeviceName.Trim)
+                            _logger.AddMessage("FW Date: " + _testBoxInfo.DeviceDate.Trim)
+                            Me.Invoke(Sub() Me.Text = Me.Text.Replace("#", _testBoxInfo.DeviceDate))
+                            _logger.AddMessage("Started!")
+                            Started = True
+                            RaiseEvent CoreReady(Me)
+                        Else
+                            _testBoxInfo = Nothing
+                            IntSSerial.Disconnect()
+                            Throw New Exception("Bad device name, not testbox")
+                        End If
                     End If
                 Catch ex As Exception
                     PortMCU = ""
@@ -114,6 +144,7 @@ Public Class DevTestPlatform
                     Threading.Thread.Sleep(5000)
                 End Try
             Else
+
                 Try
                     Dim result = IntSSerial.Request(New SSRequest(0, 11, {}))
                     If result.ResponseState = ResponseState.ok Then
@@ -139,6 +170,7 @@ Public Class DevTestPlatform
                     Pin.Digital(10).FromPort(result2.Port4, 2)
                     Pin.Digital(11).FromPort(result2.Port3, 5)
                     Pin.Digital(12).FromPort(result2.Port3, 4)
+                    Pin.RefreshMark()
 
                     Dim pins As New SimplSerialBus.Pins
                     Dim changed As Boolean = False
@@ -195,6 +227,7 @@ Public Class DevTestPlatform
                                   End SyncLock
                               End Sub)
                 Catch ex As InvalidOperationException
+                    _testBoxInfo = Nothing
                     PortMCU = ""
                 Catch ex As Exception
 
@@ -203,6 +236,27 @@ Public Class DevTestPlatform
             Threading.Thread.Sleep(100)
         Loop
     End Sub
+
+    Public Function GetSerialPortsExceptTestbox() As String()
+        Dim ports As New List(Of String)(IO.Ports.SerialPort.GetPortNames)
+        ports.Remove(Port232)
+        ports.Remove(Port485)
+        ports.Remove(PortMCU)
+        ports.Remove(PortUART)
+        Return ports.ToArray
+    End Function
+
+    Public ReadOnly Property Present As Boolean
+        Get
+            Return _testBoxInfo IsNot Nothing
+        End Get
+    End Property
+
+    Public ReadOnly Property TestBoxInfo As DeviceInfo
+        Get
+            Return _testBoxInfo
+        End Get
+    End Property
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Dim tool = New SimplSerialTool(Bus.RS485_SS, New SettingsStorageRoot, New Logger)

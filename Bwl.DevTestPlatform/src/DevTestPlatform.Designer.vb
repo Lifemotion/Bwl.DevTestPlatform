@@ -50,8 +50,8 @@ Partial Class DevTestPlatform
         '
         'logWriter
         '
-        Me.logWriter.Location = New System.Drawing.Point(0, 342)
-        Me.logWriter.Size = New System.Drawing.Size(681, 322)
+        Me.logWriter.Location = New System.Drawing.Point(0, 360)
+        Me.logWriter.Size = New System.Drawing.Size(636, 244)
         '
         'statesList
         '
@@ -59,7 +59,7 @@ Partial Class DevTestPlatform
         Me.statesList.FormattingEnabled = True
         Me.statesList.Location = New System.Drawing.Point(6, 19)
         Me.statesList.Name = "statesList"
-        Me.statesList.Size = New System.Drawing.Size(201, 277)
+        Me.statesList.Size = New System.Drawing.Size(201, 290)
         Me.statesList.TabIndex = 4
         '
         'Button2
@@ -73,27 +73,27 @@ Partial Class DevTestPlatform
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(9, 48)
+        Me.Button3.Location = New System.Drawing.Point(7, 19)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(147, 23)
+        Me.Button3.Size = New System.Drawing.Size(150, 23)
         Me.Button3.TabIndex = 7
         Me.Button3.Text = "Internal SimplSerial"
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(9, 19)
+        Me.Button4.Location = New System.Drawing.Point(6, 48)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(147, 23)
+        Me.Button4.Size = New System.Drawing.Size(150, 23)
         Me.Button4.TabIndex = 9
         Me.Button4.Text = "New SimplSerial"
         Me.Button4.UseVisualStyleBackColor = True
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(9, 77)
+        Me.Button5.Location = New System.Drawing.Point(6, 77)
         Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(147, 23)
+        Me.Button5.Size = New System.Drawing.Size(150, 23)
         Me.Button5.TabIndex = 10
         Me.Button5.Text = "Self Test Tool"
         Me.Button5.UseVisualStyleBackColor = True
@@ -176,9 +176,9 @@ Partial Class DevTestPlatform
         Me.toolsGroupbox.Controls.Add(Me.Button5)
         Me.toolsGroupbox.Controls.Add(Me.Button3)
         Me.toolsGroupbox.Controls.Add(Me.Button4)
-        Me.toolsGroupbox.Location = New System.Drawing.Point(400, 27)
+        Me.toolsGroupbox.Location = New System.Drawing.Point(231, 242)
         Me.toolsGroupbox.Name = "toolsGroupbox"
-        Me.toolsGroupbox.Size = New System.Drawing.Size(162, 109)
+        Me.toolsGroupbox.Size = New System.Drawing.Size(163, 108)
         Me.toolsGroupbox.TabIndex = 13
         Me.toolsGroupbox.TabStop = False
         Me.toolsGroupbox.Text = "Tools"
@@ -189,7 +189,7 @@ Partial Class DevTestPlatform
         Me.coreGroupbox.Enabled = False
         Me.coreGroupbox.Location = New System.Drawing.Point(12, 27)
         Me.coreGroupbox.Name = "coreGroupbox"
-        Me.coreGroupbox.Size = New System.Drawing.Size(213, 303)
+        Me.coreGroupbox.Size = New System.Drawing.Size(213, 323)
         Me.coreGroupbox.TabIndex = 14
         Me.coreGroupbox.TabStop = False
         Me.coreGroupbox.Text = "TestBoxCore"
@@ -235,18 +235,18 @@ Partial Class DevTestPlatform
         Me.Button1.Text = "SimplSerialTool"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'DevTest
+        'DevTestPlatform
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(681, 665)
+        Me.ClientSize = New System.Drawing.Size(636, 605)
         Me.Controls.Add(Me.rs232Groupbox)
         Me.Controls.Add(Me.coreGroupbox)
         Me.Controls.Add(Me.toolsGroupbox)
         Me.Controls.Add(Me.uartGroupbox)
         Me.Controls.Add(Me.rs485Groupbox)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "DevTest"
+        Me.Name = "DevTestPlatform"
         Me.Text = "Bwl DevTestPlatform"
         Me.Controls.SetChildIndex(Me.logWriter, 0)
         Me.Controls.SetChildIndex(Me.rs485Groupbox, 0)

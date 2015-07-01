@@ -44,4 +44,24 @@
             _relay(index + -1) = value
         End Set
     End Property
+
+    Private Shared _refreshMark As Integer = Integer.MaxValue
+    Private Shared _refreshSync As New Object
+
+    Public Shared Sub RefreshMark()
+        _refreshMark -= 1
+    End Sub
+
+    Public Shared Sub WaitForRefresh(Optional steps As Integer = 2)
+        SyncLock _refreshSync
+            _refreshMark = 3
+            Dim time = Now
+            Do While (Now - time).TotalSeconds < 3.0
+                If _refreshMark <= 0 Then Return
+                Application.DoEvents()
+                Threading.Thread.Sleep(1)
+            Loop
+            Throw New Exception("WaitForRefresh timed out. Check Testbox or restart.")
+        End SyncLock
+    End Sub
 End Class

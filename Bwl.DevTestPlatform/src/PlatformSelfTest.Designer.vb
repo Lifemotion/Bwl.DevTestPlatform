@@ -51,6 +51,10 @@ Partial Class PlatformSelfTest
         Me.Button26 = New System.Windows.Forms.Button()
         Me.operationsGroup.SuspendLayout()
         Me.selectedOperaionGroup.SuspendLayout()
+        Me.cycleGroup.SuspendLayout()
+        Me.prepareGroup.SuspendLayout()
+        CType(Me.infoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.imageGroup.SuspendLayout()
         Me.SuspendLayout()
         '
         'operationsGroup
@@ -85,17 +89,17 @@ Partial Class PlatformSelfTest
         '
         'selectedOperaionGroup
         '
-        Me.selectedOperaionGroup.Location = New System.Drawing.Point(427, 75)
-        Me.selectedOperaionGroup.Size = New System.Drawing.Size(456, 164)
+        Me.selectedOperaionGroup.Location = New System.Drawing.Point(640, 12)
+        Me.selectedOperaionGroup.Size = New System.Drawing.Size(338, 164)
         '
         'DatagridLogWriter1
         '
         Me.DatagridLogWriter1.Location = New System.Drawing.Point(8, 259)
-        Me.DatagridLogWriter1.Size = New System.Drawing.Size(875, 359)
+        Me.DatagridLogWriter1.Size = New System.Drawing.Size(970, 359)
         '
         'testNext
         '
-        Me.testNext.Location = New System.Drawing.Point(375, 131)
+        Me.testNext.Location = New System.Drawing.Point(244, 129)
         '
         'testCancel
         '
@@ -104,12 +108,35 @@ Partial Class PlatformSelfTest
         'testMsg
         '
         Me.testMsg.Location = New System.Drawing.Point(6, 17)
-        Me.testMsg.Size = New System.Drawing.Size(444, 109)
+        Me.testMsg.Size = New System.Drawing.Size(326, 109)
         '
-        'GroupBox1
+        'cycleGroup
         '
-        Me.GroupBox1.Location = New System.Drawing.Point(427, 12)
-        Me.GroupBox1.Size = New System.Drawing.Size(443, 57)
+        Me.cycleGroup.Location = New System.Drawing.Point(12, 161)
+        Me.cycleGroup.Size = New System.Drawing.Size(203, 78)
+        Me.cycleGroup.Text = "Управление"
+        '
+        'infoPicture
+        '
+        Me.infoPicture.Size = New System.Drawing.Size(320, 32)
+        '
+        'infoImageLabel
+        '
+        Me.infoImageLabel.Location = New System.Drawing.Point(6, 15)
+        Me.infoImageLabel.Size = New System.Drawing.Size(320, 36)
+        '
+        'infoImageName
+        '
+        Me.infoImageName.Size = New System.Drawing.Size(320, 23)
+        '
+        'cycleNewDeviceButton
+        '
+        Me.cycleNewDeviceButton.Text = "Начать заново"
+        '
+        'imageGroup
+        '
+        Me.imageGroup.Location = New System.Drawing.Point(640, 182)
+        Me.imageGroup.Size = New System.Drawing.Size(332, 57)
         '
         'Button1
         '
@@ -362,7 +389,7 @@ Partial Class PlatformSelfTest
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(887, 623)
+        Me.ClientSize = New System.Drawing.Size(982, 623)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
@@ -370,6 +397,10 @@ Partial Class PlatformSelfTest
         Me.Text = "Самотестирование  платформы"
         Me.operationsGroup.ResumeLayout(False)
         Me.selectedOperaionGroup.ResumeLayout(False)
+        Me.cycleGroup.ResumeLayout(False)
+        Me.prepareGroup.ResumeLayout(False)
+        CType(Me.infoPicture, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.imageGroup.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
