@@ -38,7 +38,6 @@ Public Class ProdAppBase
         _devTest = devtest
         _logger = logger
         _logger.ConnectWriter(DatagridLogWriter1)
-     
     End Sub
 
     Public Sub New(devtest As DevTestPlatform)
@@ -60,6 +59,7 @@ Public Class ProdAppBase
 
     Public Sub Message(text As String, Optional waitAfter As Integer = 0)
         Me.Invoke(Sub() testMsg.Text = text)
+        Beep()
         If waitAfter > 0 Then Tools.Wait(waitAfter)
     End Sub
 
@@ -151,7 +151,8 @@ Public Class ProdAppBase
     End Sub
 
     Private Sub checkPreparation_Tick(sender As Object, e As EventArgs) Handles checkPreparation.Tick
-        If _devTest.started Then
+        If DesignMode Then Return
+        If _devTest.Started Then
             checkPreparation.Stop()
             CheckPrepareStatus()
         End If
@@ -190,7 +191,7 @@ Public Class ProdAppBase
         Message("Прошивка завершена", 1000)
     End Sub
 
-    Protected Sub RestartByRelayOperation(ss As SimplSerialBus)
+    Protected Sub RestartByRelayOperation(ss As SimplSerialBus, waitNoBoot As Boolean)
         Message("Отключение питания с помощью реле. Ожидание отключения...", 100)
         _runTestAbort = False
         Pin.Relay(1) = True
@@ -206,7 +207,21 @@ Public Class ProdAppBase
             Dim result = ss.RequestWithRetries(New SSRequest(0, 254, {1, 2, 3}), 3)
             If result.ResponseState = ResponseState.ok Then Exit Do
         Loop
-        Message("Перезагрузка завершена, устройство отвечает на запросы", 1000)
+        Message("Перезагрузка завершена", 500)
+
+        If waitNoBoot Then WaitExitBootloader(ss)
+    End Sub
+
+    Public Sub WaitExitBootloader(ss As SimplSerialBus)
+        Message("Ожидание выхода из загрузчика", 500)
+        Do While _runTestAbort = False
+            Application.DoEvents()
+            Dim result = ss.RequestDeviceInfo(0)
+            If result.Response.ResponseState = ResponseState.ok Then
+                If result.DeviceName.ToLower.Contains("bwlboot") = False Then Return
+            End If
+        Loop
+        Throw New Exception("Устройство все еще в режиме загрузчика и не перешло к исполнениею программы")
     End Sub
 
     Protected Sub RestartByUserPowerOperation(ss As SimplSerialBus)
@@ -258,6 +273,7 @@ Public Class ProdAppBase
     End Sub
 
     Private Sub ShowCurrentImage()
+        If DesignMode Then Return
         Try
             If _pics.CurrentIndex >= _pics.Count Then _pics.CurrentIndex = 0
             infoPicture.Image = _pics(_pics.CurrentIndex)
@@ -278,6 +294,7 @@ Public Class ProdAppBase
 
     Private Sub ProdAppBase_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim tests As New List(Of ProdTest)
+        If DesignMode Then Return
         RaiseEvent CreateTestsRequest(Me, tests)
         CreateTestButtons(tests.ToArray)
     End Sub
@@ -322,11 +339,12 @@ Public Class ProdAppBase
 
     Private _nextPressed As Boolean
 
-    Public Sub WaitForNextButton()
+    Public Sub WaitForNextButton(Optional msg As String = "")
         testNext.Visible = True
         _nextPressed = False
         buttonCorrect.Visible = False
         buttonUncorrect.Visible = False
+        If msg > "" Then Message(msg)
 
         Do While _nextPressed = False
             Application.DoEvents()

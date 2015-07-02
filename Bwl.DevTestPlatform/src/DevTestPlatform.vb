@@ -99,7 +99,7 @@ Public Class DevTestPlatform
             If PortUART = "" Then
                 Try
                     PortUART = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB TB-UART"))
-                    If PortUART = "" Then PortUART = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB UART"))
+                    '       If PortUART = "" Then PortUART = FTDIFunctions.DetectFtdiSystemPortName(FTDIFunctions.GetFtdiPort(ports, "USB UART"))
                     Me.Invoke(Sub() uartPortLabel.Text = PortUART)
                     Bus.UART.DeviceAddress = PortUART
                     Bus.UART.DeviceSpeed = 9600
@@ -313,5 +313,14 @@ Public Class DevTestPlatform
         If statesList.Text.Contains("Digital11 ") Then PinState.Request(Pin.Digital(11))
         If statesList.Text.Contains("Digital12 ") Then PinState.Request(Pin.Digital(12))
         If statesList.Text.Contains("Relay1 ") Then Pin.Relay(1) = Not Pin.Relay(1)
+    End Sub
+
+    Public Sub New()
+
+        ' Этот вызов является обязательным для конструктора.
+        InitializeComponent()
+
+        ' Добавьте все инициализирующие действия после вызова InitializeComponent().
+
     End Sub
 End Class
