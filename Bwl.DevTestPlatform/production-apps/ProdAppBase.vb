@@ -1,5 +1,6 @@
 ﻿Imports Bwl.Hardware.SimplSerial.SimplSerialBus
 Imports System.Net
+Imports Bwl.Hardware.SimplSerial
 
 Public Class ProdAppBase
     Protected _logger As Logger
@@ -200,7 +201,7 @@ Public Class ProdAppBase
             Dim result = ss.RequestWithRetries(New SSRequest(0, 254, {1, 2, 3}), 3)
             If result.ResponseState = ResponseState.errorTimeout Then Exit Do
         Loop
-        Message("Включение питания с помощью реле. Ожидание включение...", 100)
+        Message("Включение питания с помощью реле. Ожидание включения...", 100)
         Pin.Relay(1) = False
         Do While _runTestAbort = False
             Application.DoEvents()

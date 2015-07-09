@@ -1,5 +1,6 @@
 ﻿Imports System.CodeDom.Compiler
 Imports Bwl.DevTestPlatform
+Imports Bwl.Hardware.SimplSerial
 
 Public Class DevTestPlatform
     Inherits FormAppBase

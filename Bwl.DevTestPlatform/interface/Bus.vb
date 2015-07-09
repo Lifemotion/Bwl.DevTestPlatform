@@ -1,4 +1,6 @@
-﻿Public Class Bus
+﻿Imports Bwl.Hardware.SimplSerial
+
+Public Class Bus
     Public Shared Property RS485 As New FastSerialPort
     Public Shared Property RS485_SS As New SimplSerialBus(RS485)
 

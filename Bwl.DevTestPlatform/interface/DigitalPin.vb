@@ -1,4 +1,6 @@
-﻿Public Class DigitalPin
+﻿Imports Bwl.Hardware.SimplSerial
+
+Public Class DigitalPin
 
     Private _directionOutput As Boolean = False
     Private _inputHigh As Boolean = False
@@ -15,12 +17,12 @@
     End Property
     Public ReadOnly Property InputHigh As Boolean
         Get
-            Return _InputHigh
+            Return _inputHigh
         End Get
     End Property
     Public ReadOnly Property OutputHigh As Boolean
         Get
-            Return _OutputHigh
+            Return _outputHigh
         End Get
     End Property
 
