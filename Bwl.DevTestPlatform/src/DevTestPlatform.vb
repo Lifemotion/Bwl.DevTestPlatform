@@ -155,48 +155,48 @@ Public Class DevTestPlatform
                         Pin.Voltage(2).Raw = result.Data(6) * 256 + result.Data(7)
                     End If
 
-                    Dim result2 = IntSSerial.RequestPinsRead(0)
+                    Dim result2 = IntSSerial.RequestPortsRead(0)
 
                     Me.Invoke(Sub() coreGroupbox.Enabled = True)
 
-                    Pin.Digital(1).FromPort(result2.Port2, 3)
-                    Pin.Digital(2).FromPort(result2.Port2, 2)
-                    Pin.Digital(3).FromPort(result2.Port2, 1)
-                    Pin.Digital(4).FromPort(result2.Port2, 0)
-                    Pin.Digital(5).FromPort(result2.Port4, 7)
-                    Pin.Digital(6).FromPort(result2.Port4, 6)
-                    Pin.Digital(7).FromPort(result2.Port4, 5)
-                    Pin.Digital(8).FromPort(result2.Port4, 4)
-                    Pin.Digital(9).FromPort(result2.Port4, 3)
-                    Pin.Digital(10).FromPort(result2.Port4, 2)
-                    Pin.Digital(11).FromPort(result2.Port3, 5)
-                    Pin.Digital(12).FromPort(result2.Port3, 4)
+                    Pin.Digital(1).FromPort(result2.PortB, 3)
+                    Pin.Digital(2).FromPort(result2.PortB, 2)
+                    Pin.Digital(3).FromPort(result2.PortB, 1)
+                    Pin.Digital(4).FromPort(result2.PortB, 0)
+                    Pin.Digital(5).FromPort(result2.PortD, 7)
+                    Pin.Digital(6).FromPort(result2.PortD, 6)
+                    Pin.Digital(7).FromPort(result2.PortD, 5)
+                    Pin.Digital(8).FromPort(result2.PortD, 4)
+                    Pin.Digital(9).FromPort(result2.PortD, 3)
+                    Pin.Digital(10).FromPort(result2.PortD, 2)
+                    Pin.Digital(11).FromPort(result2.PortC, 5)
+                    Pin.Digital(12).FromPort(result2.PortC, 4)
                     Pin.RefreshMark()
 
-                    Dim pins As New SimplSerialBus.Pins
+                    Dim pins As New SimplSerialBus.Ports
                     Dim changed As Boolean = False
-                    changed = changed Or Pin.Digital(1).ChangeAndToPort(pins.Port2, 3)
-                    changed = changed Or Pin.Digital(2).ChangeAndToPort(pins.Port2, 2)
-                    changed = changed Or Pin.Digital(3).ChangeAndToPort(pins.Port2, 1)
-                    changed = changed Or Pin.Digital(4).ChangeAndToPort(pins.Port2, 0)
-                    changed = changed Or Pin.Digital(5).ChangeAndToPort(pins.Port4, 7)
-                    changed = changed Or Pin.Digital(6).ChangeAndToPort(pins.Port4, 6)
-                    changed = changed Or Pin.Digital(7).ChangeAndToPort(pins.Port4, 5)
-                    changed = changed Or Pin.Digital(8).ChangeAndToPort(pins.Port4, 4)
-                    changed = changed Or Pin.Digital(9).ChangeAndToPort(pins.Port4, 3)
-                    changed = changed Or Pin.Digital(10).ChangeAndToPort(pins.Port4, 2)
-                    changed = changed Or Pin.Digital(11).ChangeAndToPort(pins.Port3, 5)
-                    changed = changed Or Pin.Digital(12).ChangeAndToPort(pins.Port3, 4)
+                    changed = changed Or Pin.Digital(1).ChangeAndToPort(pins.PortB, 3)
+                    changed = changed Or Pin.Digital(2).ChangeAndToPort(pins.PortB, 2)
+                    changed = changed Or Pin.Digital(3).ChangeAndToPort(pins.PortB, 1)
+                    changed = changed Or Pin.Digital(4).ChangeAndToPort(pins.PortB, 0)
+                    changed = changed Or Pin.Digital(5).ChangeAndToPort(pins.PortD, 7)
+                    changed = changed Or Pin.Digital(6).ChangeAndToPort(pins.PortD, 6)
+                    changed = changed Or Pin.Digital(7).ChangeAndToPort(pins.PortD, 5)
+                    changed = changed Or Pin.Digital(8).ChangeAndToPort(pins.PortD, 4)
+                    changed = changed Or Pin.Digital(9).ChangeAndToPort(pins.PortD, 3)
+                    changed = changed Or Pin.Digital(10).ChangeAndToPort(pins.PortD, 2)
+                    changed = changed Or Pin.Digital(11).ChangeAndToPort(pins.PortC, 5)
+                    changed = changed Or Pin.Digital(12).ChangeAndToPort(pins.PortC, 4)
 
-                    If ((result2.Port3.PinDirection And 2) = 0) Or ((result2.Port3.PinOutput And 2) <> Pin.Relay(1)) Then
-                        pins.Port3.PinDirection = pins.Port3.PinDirection Or 2
-                        pins.Port3.PinSetMask = pins.Port3.PinSetMask Or 2
-                        If Pin.Relay(1) Then pins.Port3.PinOutput = pins.Port3.PinOutput Or 2
+                    If ((result2.PortC.PinDirection And 2) = 0) Or ((result2.PortC.PinOutput And 2) <> Pin.Relay(1)) Then
+                        pins.PortC.PinDirection = pins.PortC.PinDirection Or 2
+                        pins.PortC.PinSetMask = pins.PortC.PinSetMask Or 2
+                        If Pin.Relay(1) Then pins.PortC.PinOutput = pins.PortC.PinOutput Or 2
                         changed = True
                     End If
 
                     If changed Then
-                        IntSSerial.RequestPinsChange(0, pins)
+                        IntSSerial.RequestPortsChange(0, pins)
                     End If
 
                     Me.Invoke(Sub()

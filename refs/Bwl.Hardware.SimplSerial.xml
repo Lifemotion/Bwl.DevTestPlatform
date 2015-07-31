@@ -13,6 +13,12 @@ Bwl.Hardware.SimplSerial
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:Bwl.Hardware.SimplSerial.SimplSerialBus.Request(System.UInt16,System.Byte,System.Byte[])">
+	<summary>
+ Выполнить запрос и получить ответ. 
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:Bwl.Hardware.SimplSerial.SimplSerialBus.Request(Bwl.Hardware.SimplSerial.SSRequest)">
 	<summary>
  Выполнить запрос и получить ответ. 

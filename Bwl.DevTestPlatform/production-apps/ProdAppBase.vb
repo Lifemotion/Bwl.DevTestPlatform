@@ -198,14 +198,14 @@ Public Class ProdAppBase
         Pin.Relay(1) = True
         Do While _runTestAbort = False
             Application.DoEvents()
-            Dim result = ss.RequestWithRetries(New SSRequest(0, 254, {1, 2, 3}), 3)
+            Dim result = ss.Request(New SSRequest(0, 254, {1, 2, 3}), 3)
             If result.ResponseState = ResponseState.errorTimeout Then Exit Do
         Loop
         Message("Включение питания с помощью реле. Ожидание включения...", 100)
         Pin.Relay(1) = False
         Do While _runTestAbort = False
             Application.DoEvents()
-            Dim result = ss.RequestWithRetries(New SSRequest(0, 254, {1, 2, 3}), 3)
+            Dim result = ss.Request(New SSRequest(0, 254, {1, 2, 3}), 3)
             If result.ResponseState = ResponseState.ok Then Exit Do
         Loop
         Message("Перезагрузка завершена", 500)
@@ -230,13 +230,13 @@ Public Class ProdAppBase
         _runTestAbort = False
         Do While _runTestAbort = False
             Application.DoEvents()
-            Dim result = ss.RequestWithRetries(New SSRequest(0, 254, {1, 2, 3}), 3)
+            Dim result = ss.Request(New SSRequest(0, 254, {1, 2, 3}), 3)
             If result.ResponseState = ResponseState.errorTimeout Then Exit Do
         Loop
         Message("Включите питание. Ожидание включение...", 100)
         Do While _runTestAbort = False
             Application.DoEvents()
-            Dim result = ss.RequestWithRetries(New SSRequest(0, 254, {1, 2, 3}), 3)
+            Dim result = ss.Request(New SSRequest(0, 254, {1, 2, 3}), 3)
             If result.ResponseState = ResponseState.ok Then Exit Do
         Loop
         Message("Перезагрузка завершена, устройство отвечает на запросы", 1000)
