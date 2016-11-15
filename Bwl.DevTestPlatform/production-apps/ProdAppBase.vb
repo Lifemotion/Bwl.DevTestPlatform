@@ -7,6 +7,15 @@ Public Class ProdAppBase
     Protected _devTest As DevTestPlatform
     Protected _runTestAbort As Boolean = False
     Protected _runTestOk As Boolean = False
+    Protected _pics As New Pics
+
+    Private _nextPressed As Boolean
+    Private _correctMark As Integer = 0
+
+    Public Event CreateTestsRequest(sender As ProdAppBase, tests As List(Of ProdTest))
+    Protected Event CheckPrepareRequest()
+    Public Property AutoRestartTest As Boolean = False
+    Public Property DownloadFileMinimumSize = 1024
 
     Public Sub CreateTestButtons(tests As ProdTest(), Optional numerate As Boolean = True)
         Dim btop As Integer = 30
@@ -31,8 +40,6 @@ Public Class ProdAppBase
                                      End Sub
         Next
     End Sub
-
-    Public Event CreateTestsRequest(sender As ProdAppBase, tests As List(Of ProdTest))
 
     Public Sub New(logger As Logger, devtest As DevTestPlatform)
         InitializeComponent()
@@ -95,8 +102,6 @@ Public Class ProdAppBase
         RunOperation(control, testSub)
     End Sub
 
-    Public Property AutoRestartTest As Boolean = False
-
     Public Sub RunOperation(control As Control, testSub As Tools.Sub0)
         _runTestAbort = False
         selectedOperaionGroup.Visible = True
@@ -106,6 +111,7 @@ Public Class ProdAppBase
             Me.Invoke(Sub()
                           testMsg.Text = "Выполнение операции " + control.Text
                           testMsg.ForeColor = Color.DarkGreen
+                          testCancel.Visible = True
                       End Sub)
             Try
                 testSub.Invoke()
@@ -126,6 +132,9 @@ Public Class ProdAppBase
                     _runTestAbort = True
                 End If
             End Try
+            Me.Invoke(Sub()
+                          testCancel.Visible = False
+                      End Sub)
             Tools.Wait(1)
         Loop
 
@@ -153,13 +162,12 @@ Public Class ProdAppBase
 
     Private Sub checkPreparation_Tick(sender As Object, e As EventArgs) Handles checkPreparation.Tick
         If DesignMode Then Return
-        If _devTest.Started Then
+
+        If _devTest.Started Or My.Computer.Keyboard.CtrlKeyDown = True Then
             checkPreparation.Stop()
             CheckPrepareStatus()
         End If
     End Sub
-
-    Protected Event CheckPrepareRequest()
 
     Private Sub CheckPrepareStatus() Handles prepRestart.Click
         If DesignMode Then Return
@@ -242,9 +250,7 @@ Public Class ProdAppBase
         Message("Перезагрузка завершена, устройство отвечает на запросы", 1000)
     End Sub
 
-    Public Property DownloadFileMinimumSize = 1024
-
-    Public Function DownloadFile(url As String, ext As String) As String
+        Public Function DownloadFile(url As String, ext As String) As String
         Dim webClient = New WebClient
         Dim filename = Now.Ticks.ToString + ext
         webClient.DownloadFile(url, filename)
@@ -304,8 +310,6 @@ Public Class ProdAppBase
         If My.Computer.Keyboard.ShiftKeyDown Then _devTest.Show()
     End Sub
 
-    Protected _pics As New Pics
-
     Public Class Pics
         Inherits List(Of Bitmap)
         Public Property CurrentIndex As Integer = 0
@@ -338,15 +342,13 @@ Public Class ProdAppBase
         Next
     End Sub
 
-    Private _nextPressed As Boolean
-
     Public Sub WaitForNextButton(Optional msg As String = "")
         testNext.Visible = True
         _nextPressed = False
         buttonCorrect.Visible = False
         buttonUncorrect.Visible = False
         If msg > "" Then Message(msg)
-
+        testNext.Focus()
         Do While _nextPressed = False
             Application.DoEvents()
             If _runTestAbort Then
@@ -366,6 +368,8 @@ Public Class ProdAppBase
         testNext.Visible = False
         buttonCorrect.Visible = True
         buttonUncorrect.Visible = True
+        buttonCorrect.Focus()
+
         _correctMark = 0
         Do
             Application.DoEvents()
@@ -399,7 +403,6 @@ Public Class ProdAppBase
         buttonUncorrect.Visible = False
     End Function
 
-    Private _correctMark As Integer = 0
     Private Sub testNext_Click(sender As Object, e As EventArgs) Handles testNext.Click
         _nextPressed = True
     End Sub
