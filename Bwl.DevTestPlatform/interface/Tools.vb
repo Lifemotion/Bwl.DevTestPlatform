@@ -1,5 +1,5 @@
 ﻿Public Class Tools
-    Public Shared Property Logger As Logger
+    Public Shared Property Log As Framework.Logger
     Public Delegate Function Function0Bool() As Boolean
     Public Delegate Sub Sub0()
     Public Delegate Sub Sub1(parameter As Object)
@@ -9,7 +9,7 @@
         For i = 0 To objs.Length - 1
             result += objs(i).ToString + " "
         Next
-        Logger.AddMessage(result)
+        Log.AddMessage(result)
     End Sub
 
     Public Shared Sub Wait(ms As Integer)

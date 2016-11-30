@@ -5,16 +5,16 @@
     Private Shared _relay As New List(Of Boolean)
 
     Sub New()
-        For i = 1 To 12
+        For i = 1 To 24
             _digital.Add(New DigitalPin)
         Next
-        For i = 1 To 2
+        For i = 1 To 8
             _voltage.Add(New AnalogInput)
         Next
-        For i = 1 To 2
+        For i = 1 To 4
             _current.Add(New AnalogInput)
         Next
-        For i = 1 To 1
+        For i = 1 To 2
             _relay.Add(New Boolean)
         Next
     End Sub

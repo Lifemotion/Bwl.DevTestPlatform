@@ -9,7 +9,7 @@ Public Class CodeExecutor2
         "'code" +
         "End Class"
 
-    Public Shared Property Logger As Logger = New Logger
+    Public Shared Property Logger As Framework.Logger = New Framework.Logger
 
     Public Shared Sub Wait(secs As Single)
         Threading.Thread.Sleep(secs * 1000.0)

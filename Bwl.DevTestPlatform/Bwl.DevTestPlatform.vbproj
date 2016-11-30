@@ -53,13 +53,16 @@
     <ApplicationIcon>Andere116.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bwl.Framework">
+    <Reference Include="Bwl.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\refs\Bwl.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Bwl.Hardware.Serial">
+    <Reference Include="Bwl.Hardware.Serial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\refs\Bwl.Hardware.Serial.dll</HintPath>
     </Reference>
-    <Reference Include="Bwl.Hardware.SimplSerial">
+    <Reference Include="Bwl.Hardware.SimplSerial, Version=1.0.15183.89, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\refs\Bwl.Hardware.SimplSerial.dll</HintPath>
     </Reference>
     <Reference Include="FTD2XX_NET">

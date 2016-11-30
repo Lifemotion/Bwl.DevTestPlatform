@@ -3,6 +3,7 @@ Imports System.Net
 Imports Bwl.Hardware.SimplSerial
 
 Public Class ProdAppBase
+    Inherits FormAppBase
     Protected _logger As Logger
     Protected _devTest As DevTestPlatform
     Protected _runTestAbort As Boolean = False
@@ -45,7 +46,7 @@ Public Class ProdAppBase
         InitializeComponent()
         _devTest = devtest
         _logger = logger
-        _logger.ConnectWriter(DatagridLogWriter1)
+        '_logger.ConnectWriter(logWriter)
     End Sub
 
     Public Sub New(devtest As DevTestPlatform)
@@ -250,7 +251,7 @@ Public Class ProdAppBase
         Message("Перезагрузка завершена, устройство отвечает на запросы", 1000)
     End Sub
 
-        Public Function DownloadFile(url As String, ext As String) As String
+    Public Function DownloadFile(url As String, ext As String) As String
         Dim webClient = New WebClient
         Dim filename = Now.Ticks.ToString + ext
         webClient.DownloadFile(url, filename)

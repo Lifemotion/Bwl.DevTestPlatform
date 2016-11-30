@@ -94,8 +94,7 @@ Partial Class PlatformSelfTest
         '
         'DatagridLogWriter1
         '
-        Me.DatagridLogWriter1.Location = New System.Drawing.Point(8, 259)
-        Me.DatagridLogWriter1.Size = New System.Drawing.Size(970, 359)
+
         '
         'testNext
         '

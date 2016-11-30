@@ -18,7 +18,8 @@ Public Class DevTestPlatform
 
     Public ReadOnly Property Logger As Logger
         Get
-            Return _logger
+            'Return _logger
+            Return Nothing
         End Get
     End Property
 
@@ -46,7 +47,7 @@ Public Class DevTestPlatform
     End Sub
 
     Private Sub DevTest_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Tools.Logger = _logger.CreateChildLogger("TestApp")
+        Tools.Log = _logger.CreateChildLogger("TestApp")
         _thread.IsBackground = True
         _thread.Start()
         Me.Text += " SW:" + Application.ProductVersion + " FW:#"
@@ -149,44 +150,83 @@ Public Class DevTestPlatform
                 Try
                     Dim result = IntSSerial.Request(New SSRequest(0, 11, {}))
                     If result.ResponseState = ResponseState.ok Then
-                        Pin.Current(2).Raw = result.Data(2) * 256 + result.Data(3)
-                        Pin.Current(1).Raw = result.Data(0) * 256 + result.Data(1)
-                        Pin.Voltage(1).Raw = result.Data(4) * 256 + result.Data(5)
-                        Pin.Voltage(2).Raw = result.Data(6) * 256 + result.Data(7)
+                        Pin.Voltage(1).Raw = result.Data(0) * 256 + result.Data(1)
+                        Pin.Voltage(2).Raw = result.Data(2) * 256 + result.Data(3)
+                        Pin.Voltage(3).Raw = result.Data(4) * 256 + result.Data(5)
+                        Pin.Voltage(4).Raw = result.Data(6) * 256 + result.Data(7)
+                        Pin.Voltage(5).Raw = result.Data(8) * 256 + result.Data(9)
+                        Pin.Voltage(6).Raw = result.Data(10) * 256 + result.Data(11)
+                        Pin.Voltage(7).Raw = result.Data(12) * 256 + result.Data(13)
+                        Pin.Voltage(8).Raw = result.Data(14) * 256 + result.Data(15)
+
+                        Pin.Current(1).Raw = result.Data(16) * 256 + result.Data(17)
+                        Pin.Current(2).Raw = result.Data(18) * 256 + result.Data(19)
+                        Pin.Current(3).Raw = result.Data(20) * 256 + result.Data(21)
+                        Pin.Current(4).Raw = result.Data(22) * 256 + result.Data(23)
+
                     End If
 
                     Dim result2 = IntSSerial.RequestPortsRead(0)
 
                     Me.Invoke(Sub() coreGroupbox.Enabled = True)
 
-                    Pin.Digital(1).FromPort(result2.PortB, 3)
-                    Pin.Digital(2).FromPort(result2.PortB, 2)
-                    Pin.Digital(3).FromPort(result2.PortB, 1)
-                    Pin.Digital(4).FromPort(result2.PortB, 0)
-                    Pin.Digital(5).FromPort(result2.PortD, 7)
-                    Pin.Digital(6).FromPort(result2.PortD, 6)
-                    Pin.Digital(7).FromPort(result2.PortD, 5)
-                    Pin.Digital(8).FromPort(result2.PortD, 4)
-                    Pin.Digital(9).FromPort(result2.PortD, 3)
-                    Pin.Digital(10).FromPort(result2.PortD, 2)
-                    Pin.Digital(11).FromPort(result2.PortC, 5)
-                    Pin.Digital(12).FromPort(result2.PortC, 4)
+                    Pin.Digital(1).FromPort(result2.PortB, 0)
+                    Pin.Digital(2).FromPort(result2.PortB, 1)
+                    Pin.Digital(3).FromPort(result2.PortB, 2)
+                    Pin.Digital(4).FromPort(result2.PortB, 3)
+                    Pin.Digital(5).FromPort(result2.PortB, 4)
+                    Pin.Digital(6).FromPort(result2.PortB, 5)
+                    Pin.Digital(7).FromPort(result2.PortB, 6)
+                    Pin.Digital(8).FromPort(result2.PortB, 7)
+
+                    Pin.Digital(9).FromPort(result2.PortA, 0)
+                    Pin.Digital(10).FromPort(result2.PortA, 1)
+                    Pin.Digital(11).FromPort(result2.PortA, 2)
+                    Pin.Digital(12).FromPort(result2.PortA, 3)
+                    Pin.Digital(13).FromPort(result2.PortA, 4)
+                    Pin.Digital(14).FromPort(result2.PortA, 5)
+                    Pin.Digital(15).FromPort(result2.PortA, 6)
+                    Pin.Digital(16).FromPort(result2.PortA, 7)
+
+                    Pin.Digital(17).FromPort(result2.PortE, 2)
+                    Pin.Digital(18).FromPort(result2.PortE, 3)
+                    Pin.Digital(19).FromPort(result2.PortE, 4)
+                    Pin.Digital(20).FromPort(result2.PortE, 5)
+                    Pin.Digital(21).FromPort(result2.PortE, 6)
+                    Pin.Digital(22).FromPort(result2.PortE, 7)
+                    Pin.Digital(23).FromPort(result2.PortH, 4)
+                    Pin.Digital(24).FromPort(result2.PortH, 5)
+
                     Pin.RefreshMark()
 
                     Dim pins As New SimplSerialBus.Ports
                     Dim changed As Boolean = False
-                    changed = changed Or Pin.Digital(1).ChangeAndToPort(pins.PortB, 3)
-                    changed = changed Or Pin.Digital(2).ChangeAndToPort(pins.PortB, 2)
-                    changed = changed Or Pin.Digital(3).ChangeAndToPort(pins.PortB, 1)
-                    changed = changed Or Pin.Digital(4).ChangeAndToPort(pins.PortB, 0)
-                    changed = changed Or Pin.Digital(5).ChangeAndToPort(pins.PortD, 7)
-                    changed = changed Or Pin.Digital(6).ChangeAndToPort(pins.PortD, 6)
-                    changed = changed Or Pin.Digital(7).ChangeAndToPort(pins.PortD, 5)
-                    changed = changed Or Pin.Digital(8).ChangeAndToPort(pins.PortD, 4)
-                    changed = changed Or Pin.Digital(9).ChangeAndToPort(pins.PortD, 3)
-                    changed = changed Or Pin.Digital(10).ChangeAndToPort(pins.PortD, 2)
-                    changed = changed Or Pin.Digital(11).ChangeAndToPort(pins.PortC, 5)
-                    changed = changed Or Pin.Digital(12).ChangeAndToPort(pins.PortC, 4)
+                    changed = changed Or Pin.Digital(1).ChangeAndToPort(pins.PortB, 0)
+                    changed = changed Or Pin.Digital(2).ChangeAndToPort(pins.PortB, 1)
+                    changed = changed Or Pin.Digital(3).ChangeAndToPort(pins.PortB, 2)
+                    changed = changed Or Pin.Digital(4).ChangeAndToPort(pins.PortB, 3)
+                    changed = changed Or Pin.Digital(5).ChangeAndToPort(pins.PortB, 4)
+                    changed = changed Or Pin.Digital(6).ChangeAndToPort(pins.PortB, 5)
+                    changed = changed Or Pin.Digital(7).ChangeAndToPort(pins.PortB, 6)
+                    changed = changed Or Pin.Digital(8).ChangeAndToPort(pins.PortB, 7)
+
+                    changed = changed Or Pin.Digital(9).ChangeAndToPort(pins.PortA, 0)
+                    changed = changed Or Pin.Digital(10).ChangeAndToPort(pins.PortA, 1)
+                    changed = changed Or Pin.Digital(11).ChangeAndToPort(pins.PortA, 2)
+                    changed = changed Or Pin.Digital(12).ChangeAndToPort(pins.PortA, 3)
+                    changed = changed Or Pin.Digital(13).ChangeAndToPort(pins.PortA, 4)
+                    changed = changed Or Pin.Digital(14).ChangeAndToPort(pins.PortA, 5)
+                    changed = changed Or Pin.Digital(15).ChangeAndToPort(pins.PortA, 6)
+                    changed = changed Or Pin.Digital(16).ChangeAndToPort(pins.PortA, 7)
+
+                    changed = changed Or Pin.Digital(17).ChangeAndToPort(pins.PortE, 2)
+                    changed = changed Or Pin.Digital(18).ChangeAndToPort(pins.PortE, 3)
+                    changed = changed Or Pin.Digital(19).ChangeAndToPort(pins.PortE, 4)
+                    changed = changed Or Pin.Digital(20).ChangeAndToPort(pins.PortE, 5)
+                    changed = changed Or Pin.Digital(21).ChangeAndToPort(pins.PortE, 6)
+                    changed = changed Or Pin.Digital(22).ChangeAndToPort(pins.PortE, 7)
+                    changed = changed Or Pin.Digital(23).ChangeAndToPort(pins.PortH, 4)
+                    changed = changed Or Pin.Digital(24).ChangeAndToPort(pins.PortH, 5)
 
                     If ((result2.PortC.PinDirection And 2) = 0) Or ((result2.PortC.PinOutput And 2) <> Pin.Relay(1)) Then
                         pins.PortC.PinDirection = pins.PortC.PinDirection Or 2
@@ -201,30 +241,53 @@ Public Class DevTestPlatform
 
                     Me.Invoke(Sub()
                                   SyncLock statesList
-                                      Do While statesList.Items.Count < 17
+                                      Do While statesList.Items.Count < 36
                                           statesList.Items.Add("")
                                       Loop
-                                      statesList.Items(0) = "Current2 (USB) = " + Pin.Current(2).ToString
-                                      statesList.Items(1) = "Current1   = " + Pin.Current(1).ToString
-                                      statesList.Items(2) = "Voltage1   = " + Pin.Voltage(1).ToString
-                                      statesList.Items(3) = "Voltage2   = " + Pin.Voltage(2).ToString
+                                      statesList.Items(0) = "Current1_1 = " + Pin.Current(1).ToString
+                                      statesList.Items(1) = "Current1_2   = " + Pin.Current(2).ToString
+                                      statesList.Items(2) = "Current2_1 = " + Pin.Current(3).ToString
+                                      statesList.Items(3) = "Current2_2   = " + Pin.Current(4).ToString
+                                      statesList.Items(4) = "Voltage1   = " + Pin.Voltage(1).ToString
+                                      statesList.Items(5) = "Voltage2   = " + Pin.Voltage(2).ToString
+                                      statesList.Items(6) = "Voltage3   = " + Pin.Voltage(3).ToString
+                                      statesList.Items(7) = "Voltage4   = " + Pin.Voltage(4).ToString
+                                      statesList.Items(8) = "Voltage5   = " + Pin.Voltage(5).ToString
+                                      statesList.Items(9) = "Voltage6   = " + Pin.Voltage(6).ToString
+                                      statesList.Items(10) = "Voltage7   = " + Pin.Voltage(7).ToString
+                                      statesList.Items(11) = "Voltage8   = " + Pin.Voltage(8).ToString
 
-                                      statesList.Items(4) = "Digital1 = " + Pin.Digital(1).ToString
-                                      statesList.Items(5) = "Digital2 = " + Pin.Digital(2).ToString
-                                      statesList.Items(6) = "Digital3 = " + Pin.Digital(3).ToString
-                                      statesList.Items(7) = "Digital4 = " + Pin.Digital(4).ToString
+                                      statesList.Items(12) = "Digital1 = " + Pin.Digital(1).ToString
+                                      statesList.Items(13) = "Digital2 = " + Pin.Digital(2).ToString
+                                      statesList.Items(14) = "Digital3 = " + Pin.Digital(3).ToString
+                                      statesList.Items(15) = "Digital4 = " + Pin.Digital(4).ToString
 
-                                      statesList.Items(8) = "Digital5 = " + Pin.Digital(5).ToString
-                                      statesList.Items(9) = "Digital6 = " + Pin.Digital(6).ToString
-                                      statesList.Items(10) = "Digital7 = " + Pin.Digital(7).ToString
-                                      statesList.Items(11) = "Digital8 = " + Pin.Digital(8).ToString
+                                      statesList.Items(16) = "Digital5 = " + Pin.Digital(5).ToString
+                                      statesList.Items(17) = "Digital6 = " + Pin.Digital(6).ToString
+                                      statesList.Items(18) = "Digital7 = " + Pin.Digital(7).ToString
+                                      statesList.Items(19) = "Digital8 = " + Pin.Digital(8).ToString
 
-                                      statesList.Items(12) = "Digital9 = " + Pin.Digital(9).ToString
-                                      statesList.Items(13) = "Digital10 = " + Pin.Digital(10).ToString
-                                      statesList.Items(14) = "Digital11 = " + Pin.Digital(11).ToString
-                                      statesList.Items(15) = "Digital12 = " + Pin.Digital(12).ToString
+                                      statesList.Items(20) = "Digital9 = " + Pin.Digital(9).ToString
+                                      statesList.Items(21) = "Digital10 = " + Pin.Digital(10).ToString
+                                      statesList.Items(22) = "Digital11 = " + Pin.Digital(11).ToString
+                                      statesList.Items(23) = "Digital12 = " + Pin.Digital(12).ToString
 
-                                      statesList.Items(16) = "Relay1 = " + If(Pin.Relay(1).ToString, "on", "off")
+                                      statesList.Items(24) = "Digital13 = " + Pin.Digital(13).ToString
+                                      statesList.Items(25) = "Digital14 = " + Pin.Digital(14).ToString
+                                      statesList.Items(26) = "Digital15 = " + Pin.Digital(15).ToString
+                                      statesList.Items(27) = "Digital16 = " + Pin.Digital(16).ToString
+
+                                      statesList.Items(28) = "Digital17 = " + Pin.Digital(17).ToString
+                                      statesList.Items(29) = "Digital18 = " + Pin.Digital(18).ToString
+                                      statesList.Items(30) = "Digital9 = " + Pin.Digital(19).ToString
+                                      statesList.Items(31) = "Digital20 = " + Pin.Digital(20).ToString
+
+                                      statesList.Items(32) = "Digital21 = " + Pin.Digital(21).ToString
+                                      statesList.Items(33) = "Digital22 = " + Pin.Digital(22).ToString
+                                      statesList.Items(34) = "Digital23 = " + Pin.Digital(23).ToString
+
+                                      statesList.Items(35) = "Digital24 = " + Pin.Digital(24).ToString
+
                                   End SyncLock
                               End Sub)
                 Catch ex As InvalidOperationException
@@ -260,17 +323,17 @@ Public Class DevTestPlatform
     End Property
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim tool = New SimplSerialTool(Bus.RS485_SS, New SettingsStorageRoot, New Logger)
+        Dim tool = New SimplSerialTool(Bus.RS485_SS)
         tool.Show()
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Dim tool = New SimplSerialTool(IntSSerial, New SettingsStorageRoot, New Logger)
+        Dim tool = New SimplSerialTool(IntSSerial)
         tool.Show()
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim tool = New SimplSerialTool(Nothing, New SettingsStorageRoot, New Logger)
+        Dim tool = New SimplSerialTool(Nothing)
         tool.Show()
     End Sub
 
@@ -296,7 +359,7 @@ Public Class DevTestPlatform
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        Dim tool = New SimplSerialTool(Bus.UART_SS, New SettingsStorageRoot, New Logger)
+        Dim tool = New SimplSerialTool(Bus.UART_SS)
         tool.Show()
     End Sub
 
@@ -313,7 +376,18 @@ Public Class DevTestPlatform
         If statesList.Text.Contains("Digital10 ") Then PinState.Request(Pin.Digital(10))
         If statesList.Text.Contains("Digital11 ") Then PinState.Request(Pin.Digital(11))
         If statesList.Text.Contains("Digital12 ") Then PinState.Request(Pin.Digital(12))
-        If statesList.Text.Contains("Relay1 ") Then Pin.Relay(1) = Not Pin.Relay(1)
+        If statesList.Text.Contains("Digital13 ") Then PinState.Request(Pin.Digital(13))
+        If statesList.Text.Contains("Digital14 ") Then PinState.Request(Pin.Digital(14))
+        If statesList.Text.Contains("Digital15 ") Then PinState.Request(Pin.Digital(15))
+        If statesList.Text.Contains("Digital16 ") Then PinState.Request(Pin.Digital(16))
+        If statesList.Text.Contains("Digital17 ") Then PinState.Request(Pin.Digital(17))
+        If statesList.Text.Contains("Digital18 ") Then PinState.Request(Pin.Digital(18))
+        If statesList.Text.Contains("Digital19 ") Then PinState.Request(Pin.Digital(19))
+        If statesList.Text.Contains("Digital20 ") Then PinState.Request(Pin.Digital(20))
+        If statesList.Text.Contains("Digital21 ") Then PinState.Request(Pin.Digital(21))
+        If statesList.Text.Contains("Digital22 ") Then PinState.Request(Pin.Digital(22))
+        If statesList.Text.Contains("Digital23 ") Then PinState.Request(Pin.Digital(23))
+        If statesList.Text.Contains("Digital24 ") Then PinState.Request(Pin.Digital(24))
     End Sub
 
     Public Sub New()

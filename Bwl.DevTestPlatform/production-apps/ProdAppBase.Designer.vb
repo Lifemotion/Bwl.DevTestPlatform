@@ -1,6 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class ProdAppBase
-    Inherits System.Windows.Forms.Form
 
     'Форма переопределяет dispose для очистки списка компонентов.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -24,9 +23,10 @@ Partial Class ProdAppBase
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProdAppBase))
-        Me.DatagridLogWriter1 = New Bwl.Framework.DatagridLogWriter()
         Me.operationsGroup = New System.Windows.Forms.GroupBox()
         Me.selectedOperaionGroup = New System.Windows.Forms.GroupBox()
+        Me.buttonUncorrect = New System.Windows.Forms.Button()
+        Me.buttonCorrect = New System.Windows.Forms.Button()
         Me.testMsg = New System.Windows.Forms.Label()
         Me.testNext = New System.Windows.Forms.Button()
         Me.testCancel = New System.Windows.Forms.Button()
@@ -40,8 +40,6 @@ Partial Class ProdAppBase
         Me.infoImageLabel = New System.Windows.Forms.Label()
         Me.infoImageName = New System.Windows.Forms.Label()
         Me.imageGroup = New System.Windows.Forms.GroupBox()
-        Me.buttonCorrect = New System.Windows.Forms.Button()
-        Me.buttonUncorrect = New System.Windows.Forms.Button()
         Me.selectedOperaionGroup.SuspendLayout()
         Me.cycleGroup.SuspendLayout()
         Me.prepareGroup.SuspendLayout()
@@ -49,22 +47,10 @@ Partial Class ProdAppBase
         Me.imageGroup.SuspendLayout()
         Me.SuspendLayout()
         '
-        'DatagridLogWriter1
+        'logWriter
         '
-        Me.DatagridLogWriter1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DatagridLogWriter1.FilterText = ""
-        Me.DatagridLogWriter1.Location = New System.Drawing.Point(0, 541)
-        Me.DatagridLogWriter1.LogEnabled = True
-        Me.DatagridLogWriter1.Margin = New System.Windows.Forms.Padding(0)
-        Me.DatagridLogWriter1.Name = "DatagridLogWriter1"
-        Me.DatagridLogWriter1.ShowDebug = False
-        Me.DatagridLogWriter1.ShowErrors = True
-        Me.DatagridLogWriter1.ShowInformation = True
-        Me.DatagridLogWriter1.ShowMessages = True
-        Me.DatagridLogWriter1.ShowWarnings = True
-        Me.DatagridLogWriter1.Size = New System.Drawing.Size(1007, 152)
-        Me.DatagridLogWriter1.TabIndex = 0
+        Me.logWriter.Location = New System.Drawing.Point(0, 533)
+        Me.logWriter.Size = New System.Drawing.Size(995, 159)
         '
         'operationsGroup
         '
@@ -94,6 +80,30 @@ Partial Class ProdAppBase
         Me.selectedOperaionGroup.TabStop = False
         Me.selectedOperaionGroup.Text = "Выбранная операция"
         Me.selectedOperaionGroup.Visible = False
+        '
+        'buttonUncorrect
+        '
+        Me.buttonUncorrect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.buttonUncorrect.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.buttonUncorrect.Location = New System.Drawing.Point(221, 121)
+        Me.buttonUncorrect.Name = "buttonUncorrect"
+        Me.buttonUncorrect.Size = New System.Drawing.Size(86, 33)
+        Me.buttonUncorrect.TabIndex = 2
+        Me.buttonUncorrect.Text = "Не верно"
+        Me.buttonUncorrect.UseVisualStyleBackColor = True
+        Me.buttonUncorrect.Visible = False
+        '
+        'buttonCorrect
+        '
+        Me.buttonCorrect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.buttonCorrect.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.buttonCorrect.Location = New System.Drawing.Point(313, 121)
+        Me.buttonCorrect.Name = "buttonCorrect"
+        Me.buttonCorrect.Size = New System.Drawing.Size(86, 33)
+        Me.buttonCorrect.TabIndex = 1
+        Me.buttonCorrect.Text = "Верно"
+        Me.buttonCorrect.UseVisualStyleBackColor = True
+        Me.buttonCorrect.Visible = False
         '
         'testMsg
         '
@@ -218,7 +228,7 @@ Partial Class ProdAppBase
         Me.infoImageLabel.Name = "infoImageLabel"
         Me.infoImageLabel.Size = New System.Drawing.Size(485, 36)
         Me.infoImageLabel.TabIndex = 5
-        Me.infoImageLabel.Text = "Щелчок по картинке - следующее изображение" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Щелчок по надписи - открыть в отдельн" & _
+        Me.infoImageLabel.Text = "Щелчок по картинке - следующее изображение" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Щелчок по надписи - открыть в отдельн" &
     "ом окне"
         Me.infoImageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -250,30 +260,6 @@ Partial Class ProdAppBase
         Me.imageGroup.Text = "Изображение"
         Me.imageGroup.Visible = False
         '
-        'buttonCorrect
-        '
-        Me.buttonCorrect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.buttonCorrect.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.buttonCorrect.Location = New System.Drawing.Point(313, 121)
-        Me.buttonCorrect.Name = "buttonCorrect"
-        Me.buttonCorrect.Size = New System.Drawing.Size(86, 33)
-        Me.buttonCorrect.TabIndex = 1
-        Me.buttonCorrect.Text = "Верно"
-        Me.buttonCorrect.UseVisualStyleBackColor = True
-        Me.buttonCorrect.Visible = False
-        '
-        'buttonUncorrect
-        '
-        Me.buttonUncorrect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.buttonUncorrect.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.buttonUncorrect.Location = New System.Drawing.Point(221, 121)
-        Me.buttonUncorrect.Name = "buttonUncorrect"
-        Me.buttonUncorrect.Size = New System.Drawing.Size(86, 33)
-        Me.buttonUncorrect.TabIndex = 2
-        Me.buttonUncorrect.Text = "Не верно"
-        Me.buttonUncorrect.UseVisualStyleBackColor = True
-        Me.buttonUncorrect.Visible = False
-        '
         'ProdAppBase
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -284,21 +270,26 @@ Partial Class ProdAppBase
         Me.Controls.Add(Me.cycleGroup)
         Me.Controls.Add(Me.selectedOperaionGroup)
         Me.Controls.Add(Me.operationsGroup)
-        Me.Controls.Add(Me.DatagridLogWriter1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "ProdAppBase"
         Me.Text = "Производственные операции"
+        Me.Controls.SetChildIndex(Me.operationsGroup, 0)
+        Me.Controls.SetChildIndex(Me.selectedOperaionGroup, 0)
+        Me.Controls.SetChildIndex(Me.cycleGroup, 0)
+        Me.Controls.SetChildIndex(Me.prepareGroup, 0)
+        Me.Controls.SetChildIndex(Me.imageGroup, 0)
+        Me.Controls.SetChildIndex(Me.logWriter, 0)
         Me.selectedOperaionGroup.ResumeLayout(False)
         Me.cycleGroup.ResumeLayout(False)
         Me.prepareGroup.ResumeLayout(False)
         CType(Me.infoPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.imageGroup.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Protected WithEvents operationsGroup As System.Windows.Forms.GroupBox
     Protected WithEvents selectedOperaionGroup As System.Windows.Forms.GroupBox
-    Protected WithEvents DatagridLogWriter1 As Bwl.Framework.DatagridLogWriter
     Protected WithEvents testNext As System.Windows.Forms.Button
     Protected WithEvents testCancel As System.Windows.Forms.Button
     Protected WithEvents testMsg As System.Windows.Forms.Label
