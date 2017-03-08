@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Bwl.DevTestPlatform.One", "Bwl.DevTestPlatform.One\Bwl.DevTestPlatform.One.cproj", "{C4CCFBFD-9FCB-4C5E-A2BF-CD4E7E4C7B75}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Bwl.DevTestPlatform.Two", "Bwl.DevTestPlatform.One\Bwl.DevTestPlatform.Two.cproj", "{C4CCFBFD-9FCB-4C5E-A2BF-CD4E7E4C7B75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

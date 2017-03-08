@@ -4,31 +4,28 @@
 
 #include <avr/io.h>
 #include <util/setbaud.h>
+#include <util/delay.h>
 #include "libs/bwl_uart.h"
 #include "libs/bwl_simplserial.h"
 #include "libs/bwl_adc.h"
 #include <avr/wdt.h>
 
 #define ADC_ADJ ADC_ADJUST_RIGHT
-#define ADC_REF ADC_REFS_INTERNAL
+#define ADC_REF ADC_REFS_INTERNAL_1_1
 #define ADC_CLK ADC_PRESCALER_128
 
-void sserial_send_start(){};
-
-void sserial_send_end(){};
-
-int adc_read_average(int count )
+void var_delay_ms(int ms)
 {
-	unsigned long sum=0;
-	for (int i=0; i<count; i++)
-	{
-		sum+=adc_read_once();
-	}
-	return sum/count;
+	for (int i=0; i<ms; i++)_delay_ms(1.0);
 }
+
+void sserial_send_start(unsigned char index){};
+
+void sserial_send_end(unsigned char index){};
+
 #define sbi(port, bit)			(port) |=  (1 << (bit))
 #define cbi(port, bit)			(port) &= ~(1 << (bit))
-void sserial_process_request()
+void sserial_process_request(unsigned char index)
 {
 	if (sserial_request.command==10)
 	{
@@ -102,10 +99,10 @@ int main(void)
 		if (sserial_devname[i]<30){sserial_devname[i]=' ';}
 		sserial_devname[i+16]=DEV_NAME[i];
 	}
-	uart_init_withdivider(UBRR_VALUE);
+	uart_init_withdivider(0,UBRR_VALUE);
 	while(1)
 	{
-		sserial_poll_uart();
+		sserial_poll_uart(0);
 		wdt_reset();
 	}
 }
